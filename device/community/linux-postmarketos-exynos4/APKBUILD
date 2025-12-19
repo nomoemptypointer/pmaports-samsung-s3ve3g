@@ -4,7 +4,7 @@
 maintainer="Newbyte <newbyte@disroot.org>"
 pkgname=linux-postmarketos-exynos4
 pkgver=6.18.9
-pkgrel=1
+pkgrel=2
 pkgdesc="Mainline kernel fork for Samsung Exynos4 devices"
 arch="armv7"
 _carch="arm"
@@ -15,9 +15,17 @@ options="!strip !check !tracedeps
 	pmb:cross-native
 	pmb:kconfigcheck-community
 	"
+_depends_dev="
+	bison
+	elfutils-dev
+	flex
+	perl
+	zstd
+"
 makedepends="
 	bison
 	clang
+	devicepkg-dev
 	findutils
 	flex
 	lld
@@ -40,21 +48,32 @@ source="
 	$pkgname-$_tag.tar.bz2::$url/-/archive/$_tag/linux-$_tag.tar.bz2
 	$_config
 "
+subpackages="$pkgname-dev:_dev:$CBUILD_ARCH"
+
 builddir="$srcdir/linux-$_tag"
+_kernelobjectdir="$builddir/build-$_flavor"
+
 
 prepare() {
 	default_prepare
-	cp -v "$srcdir/$_config" .config
+	mkdir $_kernelobjectdir
+	cp -v "$srcdir/$_config" "$_kernelobjectdir/.config"
+	# Generate appropriate Makefiles in subdir.
+	make -C "." O="$_kernelobjectdir" ARCH="$_carch" LLVM=1 \
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor" \
+		olddefconfig
 }
 
 build() {
 	unset LDFLAGS
+	cd "$_kernelobjectdir"
 	make ARCH="$_carch" LLVM=1 \
-		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-postmarketOS"
+		KBUILD_BUILD_VERSION="$((pkgrel + 1 ))-$_flavor"
 }
 
 package() {
 	mkdir -p "$pkgdir"/boot
+	cd "$_kernelobjectdir"
 	make zinstall modules_install dtbs_install \
 		ARCH="$_carch" \
 		LLVM=1 \
@@ -63,8 +82,18 @@ package() {
 		INSTALL_MOD_PATH="$pkgdir" \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
 
-	install -D "$builddir"/include/config/kernel.release \
+	install -D "$_kernelobjectdir"/include/config/kernel.release \
 		"$pkgdir/usr/share/kernel/$_flavor/kernel.release"
+}
+
+_dev() {
+	pkgdesc="Headers and script for third party modules for $_flavor kernel"
+	depends="$_depends_dev"
+	export pkgdesc
+	export depends
+
+	LLVM=1 . kernel_devsubpkg "$builddir" "$subpkgdir" "$_kernelobjectdir" \
+		"$_carch" "$_flavor"
 }
 
 sha512sums="

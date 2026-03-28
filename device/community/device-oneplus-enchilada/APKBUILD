@@ -2,8 +2,8 @@
 maintainer="Casey Connolly <kcxt@postmarketos.org>"
 pkgname=device-oneplus-enchilada
 pkgdesc="OnePlus 6"
-pkgver=24
-pkgrel=1
+pkgver=25
+pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"

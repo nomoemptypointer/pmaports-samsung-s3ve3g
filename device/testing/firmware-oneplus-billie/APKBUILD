@@ -1,0 +1,58 @@
+maintainer="Librist <contact@librist.org>"
+pkgname=firmware-oneplus-billie
+pkgver=20260401
+pkgrel=0
+pkgdesc="Firmware for OnePlus Nord N10 5G"
+subpackages="
+	$pkgname-adreno
+	$pkgname-audio
+	$pkgname-ipa
+	"
+url="https://github.com/TheMuppets/proprietary_vendor_oneplus_billie"
+arch="aarch64"
+license="proprietary"
+makedepends="pil-squasher"
+options="!check !strip !archcheck !tracedeps textrels pmb:cross-native"
+_commit="62e7a654ba2095513e706c2de292bb02ed42a55a"
+source="https://github.com/TheMuppets/proprietary_vendor_oneplus_billie/archive/$_commit/proprietary_vendor_oneplus_billie-$_commit.tar.gz"
+builddir="$srcdir/proprietary_vendor_oneplus_billie-$_commit"
+
+build() {
+	for i in "$builddir"/proprietary/vendor/firmware/*.mdt; do
+		pil-squasher "$(basename "$i" .mdt)".mbn "$i"
+	done
+}
+
+package() {
+	# parent package is empty
+	mkdir -p "$pkgdir"
+}
+
+adreno() {
+	pkgdesc="oneplus-billie adreno firmware"
+
+	# TODO: replace with firmware-qcom-adreno-a619 when released to linux-firmware.
+	# The parent device package currently depends on a630-sqe
+	install -Dm644 "$builddir"/proprietary/vendor/firmware/a619_gmu.bin -t \
+		"$subpkgdir/lib/firmware/qcom/"
+	install -Dm644 "$builddir"/a615_zap.mbn -t \
+		"$subpkgdir/lib/firmware/qcom/sm6350/OnePlus/billie/"
+}
+
+audio() {
+	pkgdesc="oneplus-billie audio amplifier firmware"
+
+	install -Dm644 "$builddir"/proprietary/vendor/firmware/tfa98xx.cnt -t \
+		"$subpkgdir/lib/firmware/postmarketos/"
+}
+
+ipa() {
+	pkgdesc="oneplus-billie ipa firmware"
+
+	install -Dm644 "$builddir"/lagoon_ipa_fws.mbn \
+		"$subpkgdir/lib/firmware/qcom/sm6350/OnePlus/billie/ipa_fws.mbn"
+}
+
+sha512sums="
+563a044c2080a5932d1052a27f17b88de028077be0640f61715ea955c1409db0967bcbcbd5ee6bf0200b9de75aaa847a778756a8c36893d03e90f39b98c091ac  proprietary_vendor_oneplus_billie-62e7a654ba2095513e706c2de292bb02ed42a55a.tar.gz
+"

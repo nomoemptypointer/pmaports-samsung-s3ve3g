@@ -1,17 +1,17 @@
 maintainer="Luca Weiss <luca@lucaweiss.eu>"
 pkgname=alsa-ucm-conf-qcom-sc7280
-pkgver=3
+pkgver=4
 pkgrel=0
 pkgdesc="ALSA UCM configuration for sc7280 devices"
-url="https://github.com/sc7280-mainline/alsa-ucm-conf"
+url="https://github.com/wrenix/sc7280-alsa-ucm-conf"
 arch="aarch64"
 license="BSD-3-Clause"
 provides="alsa-ucm-conf"
 provider_priority=1
-_commit="9d5563e6456e1a35e2d59c59130c50b2bbfe3c94"
+_commit="cb3b3bc86873b9a3ec4c1231955e762dc92503a0"
 source="$pkgname-$_commit.tar.gz::$url/archive/$_commit.tar.gz"
 options="!check"
-builddir="$srcdir/alsa-ucm-conf-$_commit"
+builddir="$srcdir/sc7280-alsa-ucm-conf-$_commit"
 
 package() {
 	# install audio config files
@@ -20,5 +20,5 @@ package() {
 }
 
 sha512sums="
-e5da1d399625718ca784142f97839d77c9c8c5a74149ac062833c308991c929e31e23826b221a8bb3acfedafe34a9cd4f4507fc84e50afa39f67b7c03e0099de  alsa-ucm-conf-qcom-sc7280-9d5563e6456e1a35e2d59c59130c50b2bbfe3c94.tar.gz
+0a46adaded3acb14cde00ad1bf42606961d7d709ff940dc85d1aa1d8cadaa42f86d5c9a44e70e7e1f2932c59ed9e2b1f1ecdc30b51a5ec092617cfe25e384bd8  alsa-ucm-conf-qcom-sc7280-cb3b3bc86873b9a3ec4c1231955e762dc92503a0.tar.gz
 "

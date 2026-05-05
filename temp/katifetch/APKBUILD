@@ -1,0 +1,17 @@
+# Maintainer: ximimoments <valentinomartinezferreira456@gmail.com>
+pkgname=katifetch
+pkgver=13.1
+pkgrel=0
+pkgdesc="A cross-platform system information tool written in Bash"
+url="https://github.com/ximimoments/katifetch"
+arch="all"
+license="MIT"
+depends="bash"
+source="$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/$pkgver.tar.gz"
+options="!check"
+
+package() {
+    install -Dm755 "$srcdir/$pkgname-$pkgver/katifetch.sh" "$pkgdir/usr/bin/katifetch"
+}
+
+sha512sums="cf3297afc5c6bf6f91d368aaec12cb492f5da68a6e6a0aa5547748501967ae5bd1c1b31b856d8f4b725980469af77b6531b1b2629cbc70040b02e2212e809d6b  13.1.tar.gz"

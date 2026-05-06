@@ -1,0 +1,17 @@
+--- a/arch/arm64/boot/dts/exynos/exynos7870-on7xelte.dts.orig
++++ b/arch/arm64/boot/dts/exynos/exynos7870-on7xelte.dts
+@@ -77,8 +77,12 @@
+ 
+ 	memory@40000000 {
+ 		device_type = "memory";
+-		reg = <0x0 0x40000000 0x3e400000>,
+-		      <0x0 0x80000000 0xbe400000>;
++		reg = <0x0 0x40000000 0x3e400000>;
++	};
++
++	memory@80000000 {
++		device_type = "memory";
++		reg = <0x0 0x80000000 0x80000000>;
+ 	};
+ 
+ 	pwrseq_mmc1: pwrseq-mmc1 {

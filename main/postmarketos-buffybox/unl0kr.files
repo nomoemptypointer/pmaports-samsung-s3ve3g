@@ -1,9 +1,9 @@
-/etc/unl0kr.conf
-/etc/unl0kr.conf.d
 /sbin/cryptsetup
 /usr/bin/unl0kr
 /usr/bin/fde-unlock
 /usr/share/libinput/*.quirks
+/usr/share/unl0kr/unl0kr.conf
+/usr/share/unl0kr/unl0kr.conf.d
 /bin/udevadm
 /sbin/udevd
 /usr/share/X11/xkb

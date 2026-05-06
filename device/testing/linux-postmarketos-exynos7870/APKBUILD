@@ -2,7 +2,7 @@
 maintainer="methanal <baclofen@tuta.io>"
 pkgname=linux-postmarketos-exynos7870
 pkgver=6.15
-pkgrel=3
+pkgrel=4
 pkgdesc="Close-to-mainline kernel for Samsung Exynos 7870 devices"
 arch="aarch64"
 _carch="arm64"
@@ -31,6 +31,7 @@ source="
 	$_config
 	linux-$pkgver.tar.gz::https://cdn.kernel.org/pub/linux/kernel/v$_kmajver.x/linux-$pkgver.tar.gz
 	patches-$_commit.tar.gz::https://gitlab.com/$_owner/$_repo/-/archive/$_commit/$_repo-$_commit.tar.gz
+	0002-exynos7870-on7xelte-split-memory-nodes.diff
 "
 builddir="$srcdir/linux-$pkgver"
 
@@ -57,6 +58,9 @@ prepare() {
 			echo "dtb-\$(CONFIG_ARCH_EXYNOS) += $dtb" >> "$makefile"
 		fi
 	done
+
+	# Patch is named .diff so default_prepare skips it as the dts file doesnt exist when its ran
+	patch -p1 < "$srcdir/0002-exynos7870-on7xelte-split-memory-nodes.diff"
 }
 
 build() {
@@ -66,13 +70,13 @@ build() {
 }
 
 package() {
-	mkdir -p "$pkgdir/boot" "$pkgdir/lib/modules"
+	mkdir -p "$pkgdir/boot"
 
 	# The bootloader does not support zipped kernels
 	make install modules_install dtbs_install \
 		ARCH="$_carch" \
 		INSTALL_PATH="$pkgdir/boot" \
-		INSTALL_MOD_PATH="$pkgdir" \
+		INSTALL_MOD_PATH="$pkgdir/usr" \
 		INSTALL_MOD_STRIP=1 \
 		INSTALL_DTBS_PATH="$pkgdir/boot/dtbs"
 	rm -f "$pkgdir"/usr/lib/modules/*/build "$pkgdir"/usr/lib/modules/*/source
@@ -88,4 +92,5 @@ sha512sums="
 6c7460c1b47eb403edd11d2a8d181e1a829ba78ef4ea44dd604f0d682edd60deaf1301e621cd289bf0cd4c27e36a5541d3d942770611a77fb3e25006041435a9  config-postmarketos-exynos7870.aarch64
 a12a16c08c8867397c69c8eeb5a1a9195253cbcce8d0a9cc731c24d027d79040a9d2b598bcc2c6fca0f4a1f019216e652d2fc1a00025b15c064b7165a61ee9c3  linux-6.15.tar.gz
 6ae251c24451851480a44f754cc1c7d07aef698c177b850c5f45f7018c767803c4609add27e5d9a747140e692180ad76f057e471cf0d3038e05050e40d8ea6db  patches-5686e3b545bd34e80ec6e73604b8819d10e52a2c.tar.gz
+ebd4fd84b1d82da1c27764a1cab7f11c4bc6adc39d99ff03a65d28e5fce2f0b0f7d3197447a099e2bf0255b36ec3e305c388ccc3fb05b62a3c3ac0d1f1935e40  0002-exynos7870-on7xelte-split-memory-nodes.diff
 "

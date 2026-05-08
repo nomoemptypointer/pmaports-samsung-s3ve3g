@@ -61,7 +61,6 @@ Responsibilities for the device maintainer team:
 
 Requirements:
 
-* Maintained by at least one person
 * Well documented installation instructions on device wiki page
 * Close-to-mainline kernel
 * Kernel must pass `pmbootstrap kconfig check --community`, which includes
@@ -125,6 +124,7 @@ once a mainline port appears. Kernels and devices in this category might be
 moved to _archived_ if no longer building and either lack a maintainer or the
 maintainer is unresponsive for months.
 
+(device-category-archived)=
 ### Archived
 
 Ports are moved to this category if:

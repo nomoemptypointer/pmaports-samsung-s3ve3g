@@ -1,4 +1,5 @@
-maintainer="Alexander Martinz <amartinz@shiftphones.com>"
+# Archived: unmaintained
+maintainer=""
 pkgname=firmware-shift-sdm845
 pkgver=20240517
 pkgrel=2

@@ -165,6 +165,13 @@ sysext_dev_tools() {
 		waydroid-systemd
 	"
 
+	# glibc support on musl
+	depends="
+		$depends
+		gcompat
+		libc6-compat
+	"
+
 	# containers for toolchains, etc
 	depends="
 		$depends

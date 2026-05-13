@@ -157,12 +157,32 @@ sysext_dev_tools() {
 		android-udev-rules
 	"
 
+	# android support
+	depends="
+		$depends
+		waydroid
+		waydroid-nftrules
+		waydroid-systemd
+	"
+
+	# glibc support on musl
+	depends="
+		$depends
+		gcompat
+		libc6-compat
+	"
+
 	# containers for toolchains, etc
 	depends="
 		$depends
 		devpod
 		distrobox
 		podman
+		rootlesskit
+		docker-rootless-extras
+		docker
+		docker-systemd
+		docker-cli-compose
 	"
 
 	# mkosi for building duranium, other distro images

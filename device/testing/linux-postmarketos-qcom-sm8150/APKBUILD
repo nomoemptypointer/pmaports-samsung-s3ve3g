@@ -7,7 +7,7 @@ pkgrel=2
 pkgdesc="Mainline Kernel fork for SM8150 devices"
 arch="aarch64"
 _carch="arm64"
-url="https://gitlab.com/sm8150-mainline/linux"
+url="https://gitlab.postmarketos.org/soc/qualcomm-sm8150/linux"
 license="GPL-2.0-only"
 options="!strip !check !tracedeps
 	pmb:cross-native

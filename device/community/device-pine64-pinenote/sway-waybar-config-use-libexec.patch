@@ -1,0 +1,100 @@
+diff --git a/etc/sway_hrdl/waybar/config.orig b/etc/sway_hrdl/waybar/config
+index 84fcd56..f5853d4 100644
+--- a/etc/sway_hrdl/waybar/config.orig
++++ b/etc/sway_hrdl/waybar/config
+@@ -186,38 +186,38 @@
+     },
+     "custom/mvws_prev": {
+       "format": "\uF100",
+-      "on-click": "sway_workspace move prev",
++      "on-click": "/usr/libexec/pinenote/sway_workspace move prev",
+       "min-length": 5,
+       "tooltip": false,
+     },
+     "custom/gows_prev": {
+       "format": "\u2190",
+-      "on-click": "sway_workspace goto prev",
++      "on-click": "/usr/libexec/pinenote/sway_workspace goto prev",
+       "min-length": 5,
+       "tooltip": false,
+     },
+     "custom/gows_next": {
+       "format": "\u2192",
+-      "on-click": "sway_workspace goto next",
++      "on-click": "/usr/libexec/pinenote/sway_workspace goto next",
+       "min-length": 5,
+       "tooltip": false,
+     },
+     "custom/mvws_next": {
+       "format": "\uF101",
+-      "on-click": "sway_workspace move next",
++      "on-click": "/usr/libexec/pinenote/sway_workspace move next",
+       "min-length": 5,
+       "tooltip": false,
+     },
+     "custom/okb": {
+       "format": "\uF11C",
+-      "on-click": "toggle_onscreen_keyboard.py",
++      "on-click": "/usr/libexec/pinenote/toggle_onscreen_keyboard.py",
+       "min-length": 5,
+       "tooltip": false,
+     },
+ 
+     "custom/smenu": {
+       "format": "\uF277",
+-      "on-click": "toggle_menu.sh",
++      "on-click": "/usr/libexec/pinenote/toggle_menu.sh",
+       "min-length": 5,
+       "tooltip": false,
+     },
+@@ -288,7 +288,7 @@
+     },
+     "custom/ebc_dump_buffers": {
+       "format": "\u2707",
+-      "on-click": "rockchip_ebc_dump_buffers.py",
++      "on-click": "/usr/libexec/pinenote/rockchip_ebc_dump_buffers.py",
+       "min-length": 5,
+       "tooltip": false,
+     },
+@@ -306,28 +306,28 @@
+     },
+     "custom/rotate_0": {
+       "format": "\u25AC",
+-      "on-click": "sway_rotate.sh rotnormal",
++      "on-click": "/usr/libexec/pinenote/sway_rotate.sh rotnormal",
+       "min-length": 5,
+       "tooltip": false,
+     },
+ 
+     "custom/rotate_90": {
+       "format": "\u25AE",
+-      "on-click": "sway_rotate.sh rotright",
++      "on-click": "/usr/libexec/pinenote/sway_rotate.sh rotright",
+       "min-length": 5,
+       "tooltip": false,
+     },
+ 
+     "custom/rotate_180": {
+       "format": "R180",
+-      "on-click": "sway_rotate.sh rotinvert",
++      "on-click": "/usr/libexec/pinenote/sway_rotate.sh rotinvert",
+       "min-length": 5,
+       "tooltip": false,
+     },
+ 
+     "custom/rotate_270": {
+       "format": "R270",
+-      "on-click": "sway_rotate.sh rotleft",
++      "on-click": "/usr/libexec/pinenote/sway_rotate.sh rotleft",
+       "min-length": 5,
+       "tooltip": false,
+     },
+@@ -348,7 +348,7 @@
+     },
+ 
+     "custom/battery_watts": {
+-      "exec": "battery_watts.sh",
++      "exec": "/usr/libexec/pinenote/battery_watts.sh",
+       "format": " {}W",
+       "interval": 10,
+       "min-length": 5,

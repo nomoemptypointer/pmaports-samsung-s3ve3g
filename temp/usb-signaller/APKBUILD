@@ -1,12 +1,13 @@
 maintainer="Dylan Van Assche <dylan@postmarketos.org>"
 pkgname=usb-signaller
-pkgver=0.1.0
+pkgver=0.2.0
 pkgrel=0
 pkgdesc="Replacement for usb-moded for mainline devices."
 url="https://codeberg.org/DylanVanAssche/usb-signaller"
 arch="all"
 license="GPL-3.0-or-later"
-source="$pkgname-$pkgver.tar.gz::https://codeberg.org/DylanVanAssche/usb-signaller/archive/v$pkgver.tar.gz"
+_commit="9d2fdb237339fd675aecbbb92f16ea565099a4d2"
+source="$pkgname-$_commit.tar.gz::https://codeberg.org/DylanVanAssche/usb-signaller/archive/$_commit.tar.gz"
 makedepends="cargo-auditable dbus-dev"
 subpackages="$pkgname-systemd"
 builddir="$srcdir/$pkgname"
@@ -27,8 +28,9 @@ check() {
 package() {
 	install -Dm755 target/release/usb-signaller "$pkgdir"/usr/bin/usb-signaller
 	install -Dm644 usb-signaller.service -t "$pkgdir"/usr/lib/systemd/system/
+	install -Dm644 com.meego.usb_moded.conf -t "$pkgdir"/usr/share/dbus-1/system.d/
 }
 
 sha512sums="
-8cd4d6d940e2890f0d2645a25cefc58be650e8578fb46c787a74d3990eacdd11528348548461da0d86cf1ac33b55a9ef1563bc9ac595c04be2ebf760e102b1c4  usb-signaller-0.1.0.tar.gz
+3984ec00654782b98fe5cce1274b020ec687f5542264ba61df3ba4e3ad6f02ef92516bcb6695722958f2aaf9b29b1c4daee7026c4b9be87948a6ac76f54fc980  usb-signaller-9d2fdb237339fd675aecbbb92f16ea565099a4d2.tar.gz
 "

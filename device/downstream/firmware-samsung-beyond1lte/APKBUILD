@@ -1,3 +1,4 @@
+maintainer="chiffa <chiffathefoxx@gmail.com>"
 pkgname=firmware-samsung-beyond1lte
 pkgver=1
 pkgrel=0

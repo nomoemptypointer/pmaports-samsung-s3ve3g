@@ -1,0 +1,56 @@
+From ddf6a61efe39b78b08ae0921fc93529dd10c90fe Mon Sep 17 00:00:00 2001
+From: Arnaud Patard <arnaud.patard@rtp-net.org>
+Date: Fri, 11 Sep 2020 16:26:13 -0400
+Subject: [PATCH 03/13] [HACK NOTFORMERGE] PBP: Fix panel reset
+
+On warm reset, the pinebook pro panel is not working correctly.
+The issue is not yet debugged so, for now, this hack seems to be
+enough. It toggles the GPIO1_C6 gpio [ LCDVCC_EN signal in the
+schematics ] used by the vcc3v3_panel regulator.
+
+There's no gpio_request, since the gpio is already in use at this
+stage, so it can only fail.
+
+Origin: http://people.hupstream.com/~rtp/pbp/20200911/hack-reset.patch
+---
+ .../pinebook-pro-rk3399/pinebook-pro-rk3399.c | 27 +++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 board/pine64/pinebook-pro-rk3399/pinebook-pro-rk3399.c
+
+diff --git a/board/pine64/pinebook-pro-rk3399/pinebook-pro-rk3399.c b/board/pine64/pinebook-pro-rk3399/pinebook-pro-rk3399.c
+new file mode 100644
+index 00000000000..0830a707982
+--- /dev/null
++++ b/board/pine64/pinebook-pro-rk3399/pinebook-pro-rk3399.c
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * (C) Copyright 2016 Rockchip Electronics Co., Ltd
++ * (C) Copyright 2020 Peter Robinson <pbrobinson at gmail.com>
++ */
++
++#include <common.h>
++#include <linux/delay.h>
++#include <asm/gpio.h>
++
++#ifdef CONFIG_MISC_INIT_R
++int misc_init_r(void)
++{
++	unsigned int gpio;
++
++	/*
++	 * Panel reset hack for warm boot.
++	 * Toggle GPIO1_C6 (LCDVCC_EN) to fix panel not working after warm reset.
++	 */
++	gpio_lookup_name("B22", NULL, NULL, &gpio);
++	gpio_direction_output(gpio, 0);
++	mdelay(500);
++	gpio_direction_output(gpio, 1);
++
++	return 0;
++}
++#endif
+\ No newline at end of file
+-- 
+2.54.0
+

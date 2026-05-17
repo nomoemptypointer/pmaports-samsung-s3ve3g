@@ -1,0 +1,62 @@
+From 879a3aa3600584de8ac7a2d6ed3a6d71de48c727 Mon Sep 17 00:00:00 2001
+From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+Date: Wed, 8 Jul 2020 01:26:55 -0400
+Subject: [PATCH 10/13] Configure boot splash logo
+
+This assumes LOGO_BMP is set by the derivation as a make flag.
+---
+ configs/pinebook-pro-rk3399_defconfig | 13 +++++++++++++
+ include/configs/pinebook-pro-rk3399.h |  6 ++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/configs/pinebook-pro-rk3399_defconfig b/configs/pinebook-pro-rk3399_defconfig
+index 48e532f07cd..c985fa4a8ba 100644
+--- a/configs/pinebook-pro-rk3399_defconfig
++++ b/configs/pinebook-pro-rk3399_defconfig
+@@ -102,9 +102,22 @@ CONFIG_VIDEO_ROCKCHIP=y
+ CONFIG_DISPLAY_ROCKCHIP_EDP=y
+ CONFIG_ERRNO_STR=y
+ 
++# The following bunch of defines is for the splash
++CONFIG_SPLASH_SCREEN=y
++CONFIG_SPLASH_SCREEN_ALIGN=y
++CONFIG_SPLASHIMAGE_GUARD=y
++CONFIG_SPLASH_SOURCE=y
++CONFIG_VIDEO_BMP_GZIP=y
++CONFIG_VIDEO_BMP_RLE8=y
++CONFIG_VIDEO_LOGO=y
++CONFIG_VIDEO_LOGO_MAX_SIZE=0x7E8480
++
+ # Boot menu required for the menu (duh)
+ CONFIG_CMD_BOOTMENU=y
+ 
++# Required for the splash (see include/configs/pinebook-pro-rk3399.h)
++CONFIG_CMD_BMP=y
++
+ # Truetype console configuration
+ CONFIG_CONSOLE_TRUETYPE=y
+ CONFIG_CONSOLE_TRUETYPE_NIMBUS=y
+diff --git a/include/configs/pinebook-pro-rk3399.h b/include/configs/pinebook-pro-rk3399.h
+index b20a3cde4ad..17d2d82503c 100644
+--- a/include/configs/pinebook-pro-rk3399.h
++++ b/include/configs/pinebook-pro-rk3399.h
+@@ -7,10 +7,16 @@
+ #ifndef __PINEBOOK_PRO_RK3399_H
+ #define __PINEBOOK_PRO_RK3399_H
+ 
++#define SPLASH_ENV \
++		"splashimage=0x08080000\0" \
++		"splashpos=m,m\0" \
++		"splashsource=mmc_fs\0"
++
+ // This sets up additional environment variables for our opinionated setup.
+ // (See rk3399_common.h, it should be apended to ROCKCHIP_DEVICE_SETTINGS here
+ //  but it makes patches harder to apply...)
+ #define OPINIONATED_ENV \
++		SPLASH_ENV \
+ 		"setup_leds=led green:power on; led red:standby on\0" \
+ 		"bootcmd=run setup_leds; run distro_bootcmd\0" \
+ 		"bootmenu_delay=-1\0" \
+-- 
+2.54.0
+

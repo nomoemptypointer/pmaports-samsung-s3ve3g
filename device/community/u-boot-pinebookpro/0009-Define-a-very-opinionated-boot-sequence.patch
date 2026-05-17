@@ -1,0 +1,75 @@
+From 05ed4689ad116d3ceb5f7fc2a91d8197fd338062 Mon Sep 17 00:00:00 2001
+From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+Date: Wed, 8 Jul 2020 01:26:30 -0400
+Subject: [PATCH 09/13] Define a very-opinionated boot sequence
+
+---
+ configs/pinebook-pro-rk3399_defconfig | 25 +++++++++++++++++++++++++
+ include/configs/pinebook-pro-rk3399.h | 17 +++++++++++++++++
+ 2 files changed, 42 insertions(+)
+
+diff --git a/configs/pinebook-pro-rk3399_defconfig b/configs/pinebook-pro-rk3399_defconfig
+index af09eb18b13..48e532f07cd 100644
+--- a/configs/pinebook-pro-rk3399_defconfig
++++ b/configs/pinebook-pro-rk3399_defconfig
+@@ -101,3 +101,28 @@ CONFIG_DISPLAY=y
+ CONFIG_VIDEO_ROCKCHIP=y
+ CONFIG_DISPLAY_ROCKCHIP_EDP=y
+ CONFIG_ERRNO_STR=y
++
++# Boot menu required for the menu (duh)
++CONFIG_CMD_BOOTMENU=y
++
++# Truetype console configuration
++CONFIG_CONSOLE_TRUETYPE=y
++CONFIG_CONSOLE_TRUETYPE_NIMBUS=y
++CONFIG_CONSOLE_TRUETYPE_SIZE=26
++
++# Boot menu and default boot configuration
++
++# Gives *some* time for the user to act.
++# Though an already-knowledgeable user will know they can use the key before
++# the message is shown.
++# Conversely, CTRL+C can cancel the default boot, showing the menu as expected
++# In reality, this gives us MUCH MORE slop in the time window than 1 second.
++CONFIG_BOOTDELAY=1
++# This would be escape, but the USB drivers don't really play well and
++# escape doesn't work from the keyboard.
++CONFIG_AUTOBOOT_MENUKEY=27
++# So we'll fake that using CTRL+C is what we want...
++# It's only a side-effect.
++CONFIG_AUTOBOOT_PROMPT="Press CTRL+C for the boot menu."
++# And this ends up causing the menu to be used on CTRL+C (or escape)
++CONFIG_AUTOBOOT_USE_MENUKEY=y
+diff --git a/include/configs/pinebook-pro-rk3399.h b/include/configs/pinebook-pro-rk3399.h
+index 141ffcd036b..b20a3cde4ad 100644
+--- a/include/configs/pinebook-pro-rk3399.h
++++ b/include/configs/pinebook-pro-rk3399.h
+@@ -7,7 +7,24 @@
+ #ifndef __PINEBOOK_PRO_RK3399_H
+ #define __PINEBOOK_PRO_RK3399_H
+ 
++// This sets up additional environment variables for our opinionated setup.
++// (See rk3399_common.h, it should be apended to ROCKCHIP_DEVICE_SETTINGS here
++//  but it makes patches harder to apply...)
++#define OPINIONATED_ENV \
++		"setup_leds=led green:power on; led red:standby on\0" \
++		"bootcmd=run setup_leds; run distro_bootcmd\0" \
++		"bootmenu_delay=-1\0" \
++		"bootmenu_0=Default U-Boot boot=run distro_bootcmd; echo \"Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_1=Boot from eMMC=run bootcmd_mmc0; echo \"eMMC Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_2=Boot from SD=run bootcmd_mmc1; echo \"SD Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_3=Boot from USB=run bootcmd_usb0; echo \"USB Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_4=Boot PXE=run bootcmd_pxe; echo \"PXE Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_5=Boot DHCP=run bootcmd_dhcp; echo \"DHCP Boot failed.\"; sleep 5; $menucmd -1\0" \
++		"bootmenu_6=Reboot=reset\0" \
++		"menucmd=bootmenu\0"
++
+ #define ROCKCHIP_DEVICE_SETTINGS \
++		OPINIONATED_ENV \
+ 		"stdin=serial,usbkbd\0" \
+ 		"stdout=serial,vidconsole\0" \
+ 		"stderr=serial,vidconsole\0"
+-- 
+2.54.0
+

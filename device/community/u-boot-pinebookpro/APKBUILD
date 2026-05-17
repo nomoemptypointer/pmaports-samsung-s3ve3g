@@ -2,8 +2,8 @@
 # a driver for the display and supports efi loading operating systems
 maintainer="Quade Curry <qc8086@qc8086.com>"
 pkgname=u-boot-pinebookpro
-pkgver=2020.07
-pkgrel=5
+pkgver=2026.04
+pkgrel=0
 pkgdesc="u-boot bootloader for the rk3399"
 url="https://gitlab.denx.de/u-boot/u-boot"
 arch="aarch64"
@@ -11,27 +11,35 @@ license="GPL-2.0-or-later OFL-1.1 BSD-2-Clause BSD-3-Clause eCos-2.0 IBM-pibs
 	ISC LGPL-2.0-only LGPL-2.1-only X11"
 makedepends="$depends_dev
 	arm-trusted-firmware
+	bash
 	bc
 	bison
 	dtc
 	flex
+	gnutls-dev
 	openssl-dev
 	python3-dev
+	py3-elftools
+	py3-setuptools
 	swig
 	u-boot-tools
 	"
 options="!check"
 source="
 	ftp://ftp.denx.de/pub/u-boot/u-boot-${pkgver//_/-}.tar.bz2
-	0001-enable-rockchip-rng.patch
-	0002-enable-usb-keyboard.patch
-	0003-display-support.patch
-	0004-rk3399-light-pinebook-power-and-standby-leds.patch
-	0005-support-SPI-flash-boot.patch
-	0006-implement-boot-menu.patch
-	0007-rockchip-boot-order.patch
-	0008-rockchip-boot-order-add-usb.patch
-	0009-rk3399-support-compressed-kernel.patch
+	0001-pinebook-pro-Add-PREBOOT-to-start-USB-before-boot-me.patch
+	0002-drivers-video-rockchip-rk_edp.c-Change-clock-rate.patch
+	0003-HACK-NOTFORMERGE-PBP-Fix-panel-reset.patch
+	0004-rk3399-light-pinebook-power-and-standby-leds-during-.patch
+	0005-splash-fix-CONFIG_SPLASH_SOURCE-and-enable-backup-lo.patch
+	0006-hack-bmp-compressed-logo.patch
+	0007-bootmenu-Replace-reverse-for-truetype-console.patch
+	0008-vidconsole-uclass-Implement-ANSI_CURSOR_COLUMN.patch
+	0009-Define-a-very-opinionated-boot-sequence.patch
+	0010-Configure-boot-splash-logo.patch
+	0011-cli-Clear-ctrl-c-before-running-a-command.patch
+	0012-rockchip-move-usb0-after-mmc1-in-default-boot-order.patch
+	0013-pinebook-pro-disable-truetype-console.patch
 	pine64.bmp
 	"
 builddir="$srcdir"/u-boot-${pkgver//_/-}
@@ -68,14 +76,20 @@ package() {
 }
 
 
-sha512sums="df91264fe8a42e676c3f2aa09d644c6a3035cc8169bf52a8ab95efe7e542cfc758a0ef150949b0d9f03c7dec7d95f8d20a2efe2dbb60c2ef1a61c8063770478d  u-boot-2020.07.tar.bz2
-058408fdf8921bcde5f9ca9ea03fdad6d87dd94f09bd6768792d72af43e64e801dfd8cb3f16e83be14153d9c38b3e3e23fe949778d9347ff72bada996bd82cfe  0001-enable-rockchip-rng.patch
-8e454e486a7c9fe486a1bdbececf8c6b163b90b7b57a3822afb2a30f42ba9552439360d08a6ecc19a2ebe807c6c15961a73e0fe47dce9d2a7f86ce4742cb2510  0002-enable-usb-keyboard.patch
-7292dab0af5b0127663eac7966499fc5af87c544485168b5269cdf16a226cd8a215b76a4745cf19afb751ea6fea680e26b86adfdaab54e3ec7fc8fd8bec85c6b  0003-display-support.patch
-5188c54bb1efe18471b3e0ff8113b0d46d6ecad2be222416c7fb89021e76f2816771793d3efaba561602064a8079cf0da66e25228e132d44a0f6b14658f93ffb  0004-rk3399-light-pinebook-power-and-standby-leds.patch
-ee51dca25a5a00011186c7f750e20ed08061a5a64a67bd81ca6d96cefdb139a15078d48c2c5b6ecb09b4ab5d778e11f3b62ff3daa74ffc7d73963b15e4eee215  0005-support-SPI-flash-boot.patch
-8d989d200639204c8f7fb2620209bd1e096e8c5ea04085f68486b71490deb60e89e2d54704508bfe22c006b0d331dcc0c5cbfac6c0e02328a01b0f0b611d6b58  0006-implement-boot-menu.patch
-3a91ae0f499ca668ac95cc24c3b2794b0884acfcba2a76493cb2329b8e00d84eb1bbfdcdb2475064cc5b0fb0b52df849afc59b6399de44699db9dfda4d0c5f3c  0007-rockchip-boot-order.patch
-b655dfd83c12925d5e90f317c97d8bca9f047df337202627bfe40e0ebaba79d8adc429575a04f5af531bcc2626521b517ea7b9026dbdffb54ba97316d1674cf9  0008-rockchip-boot-order-add-usb.patch
-cc03b87e42ce0ade1d3ddd9eebc76304451c01c4ee2ea2f52aa572ab8a30d84960df4d47f14315d96943467793fccee2052f53ace9fbac059e30c86c749d7ccc  0009-rk3399-support-compressed-kernel.patch
-e317f8527dbb3b8a40a45d20da6c42f8cfd98b968060d6b4f1fa5453736441d36d1048bdc4359af47c2129fa86b6d43b3e263ef282f5c7b2e54f702d8b6bd8b1  pine64.bmp"
+sha512sums="
+c5fca2abc533759985dfcc6d071d154007535787b0bbd569b61bda1fe2f3a31fba08481c8caf18cf5f2bc79609f50dee504977a8b65e8c4cc21f277268232e03  u-boot-2026.04.tar.bz2
+bc1f7a227eb8a94b210e43ba86020a5fa310775676266e990615f44d63aefc518e61b165109df2e1d86292afc1f687a358a91b3f6104ec35f9c92c218813b074  0001-pinebook-pro-Add-PREBOOT-to-start-USB-before-boot-me.patch
+cecfb993ea992df06206c319d6187d507c4322b597533fc78b34d9c30e923d2493f46b84c3cb81340b9d4780c1f9fda1f8493f3fe33578a03e549bd19a54633e  0002-drivers-video-rockchip-rk_edp.c-Change-clock-rate.patch
+f978219228bcc297c014d1fefa42bb15731f201fe0af823e9f73af3f107039ca5c5aaa11a6c381f9d48f0e13d025352ecbb6deef796410cd9cbac6d259f0c21b  0003-HACK-NOTFORMERGE-PBP-Fix-panel-reset.patch
+b389cbcdfa07f1f09e2492cbc20ee55a18d2375e68b398e87cd2c77dcafd3f6b193d9185c940e46a32cf044bc1362df1ac1bc69ca09a7030eae7ac69528e0b10  0004-rk3399-light-pinebook-power-and-standby-leds-during-.patch
+79a563fa91c29949b4052d7fbe8f5296fe9c004468581a908fd19c50f083f406ccba7e340b9e3a7c10c1b920ef9bffbc5bac4daa603434b0b74c72bcc14dae11  0005-splash-fix-CONFIG_SPLASH_SOURCE-and-enable-backup-lo.patch
+7d52fe9da6d30ca368a3f10a5a5d67c01143a5acf02f7dfe05637840cc08580cfcbd126b48ec1b00712fdd423324c5b7eda052d629a985783f36144119190377  0006-hack-bmp-compressed-logo.patch
+f529ce0812a49e12b857b90d00bff7d173b08f9629fda764091d7fde3d9a1d2c09e0c66d0e5a63295053a18b05f5e5b30038b8deb03fb8e290c6c25037ae03a0  0007-bootmenu-Replace-reverse-for-truetype-console.patch
+d571f6957f06f7204342f475fa189dd6a0866f3f78e07dc13092e6628abdc2b4edd8a88b15a88603e3691b7caba02136f4a9f2b7c30a7c124e4009906c662d08  0008-vidconsole-uclass-Implement-ANSI_CURSOR_COLUMN.patch
+a58f05a62a6f96891b4c9c322ecdf27f2d3dc70e67759de3f9c405bd58531d44f90207c3e2c7ab9c033bf4c9249495c453c598ed7e56cbcfd605a623316b9b78  0009-Define-a-very-opinionated-boot-sequence.patch
+84f5462ae2d85ddb229cc45b95d8a9a7e8dab52d1a776db9cba7354beab50edfe41f543a75d9b02a1683ac974fdb14d13f9b98a7ab28e1392b79f81b1e0cb128  0010-Configure-boot-splash-logo.patch
+2987bbe958f024b5e97535e960278ea5ea9e2db11c2f2e5d0403d7f681793c9f48297335a515c1e97e5fb39e06d889b7ae44a787c53a3f4934f64de46d50504d  0011-cli-Clear-ctrl-c-before-running-a-command.patch
+1930e576da6cf5296541784458c482f81d52b9d97c0791325857aca600acd61a49d4aca44a245ac58cf7507c0d08d923ca593c69a7b6e5c6cca8c07e297bcc1f  0012-rockchip-move-usb0-after-mmc1-in-default-boot-order.patch
+0fe3101e561879e3141e78f26787463463c3a9296d2323ed09770052d8f9e53a562eb61f6b988cdf7de2ef449e2828e19fb8d803c3c1e38b63777bad8c05353c  0013-pinebook-pro-disable-truetype-console.patch
+e317f8527dbb3b8a40a45d20da6c42f8cfd98b968060d6b4f1fa5453736441d36d1048bdc4359af47c2129fa86b6d43b3e263ef282f5c7b2e54f702d8b6bd8b1  pine64.bmp
+"

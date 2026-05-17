@@ -1,0 +1,30 @@
+From 2d3d0aa2fdda102c54b3acdb7806b984fb8bca11 Mon Sep 17 00:00:00 2001
+From: Hugo Osvaldo Barrera <hugo@whynothugo.nl>
+Date: Sun, 17 May 2026 18:59:42 +0200
+Subject: [PATCH 13/13] pinebook-pro: disable truetype console
+
+This doesn't seem to build for arm64 due to -mgeneral-regs-only. Further
+details are beyond my understanding; let's just disable this for now.
+---
+ configs/pinebook-pro-rk3399_defconfig | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/configs/pinebook-pro-rk3399_defconfig b/configs/pinebook-pro-rk3399_defconfig
+index c985fa4a8ba..fe534c7d186 100644
+--- a/configs/pinebook-pro-rk3399_defconfig
++++ b/configs/pinebook-pro-rk3399_defconfig
+@@ -118,11 +118,6 @@ CONFIG_CMD_BOOTMENU=y
+ # Required for the splash (see include/configs/pinebook-pro-rk3399.h)
+ CONFIG_CMD_BMP=y
+ 
+-# Truetype console configuration
+-CONFIG_CONSOLE_TRUETYPE=y
+-CONFIG_CONSOLE_TRUETYPE_NIMBUS=y
+-CONFIG_CONSOLE_TRUETYPE_SIZE=26
+-
+ # Boot menu and default boot configuration
+ 
+ # Gives *some* time for the user to act.
+-- 
+2.54.0
+

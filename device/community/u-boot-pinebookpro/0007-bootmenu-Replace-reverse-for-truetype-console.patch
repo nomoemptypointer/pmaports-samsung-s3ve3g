@@ -1,0 +1,52 @@
+From 1c3d75262e74265cbb69c16a5b98ce55717795c4 Mon Sep 17 00:00:00 2001
+From: Samuel Dionne-Riel <samuel@dionne-riel.com>
+Date: Tue, 7 Jul 2020 00:59:45 -0400
+Subject: [PATCH 07/13] bootmenu: Replace reverse for truetype console
+
+The truetype console doesn't support many ANSI escape sequences, among
+those the reverse sequence is *broken*. It reverses the text, but does
+not change the background color.
+
+This, instead, uses characters to show which option is currently active.
+---
+ cmd/bootmenu.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/cmd/bootmenu.c b/cmd/bootmenu.c
+index d3108778c6f..c04893f55f5 100644
+--- a/cmd/bootmenu.c
++++ b/cmd/bootmenu.c
+@@ -65,21 +65,24 @@ static char *bootmenu_getoption(unsigned short int n)
+ static void bootmenu_print_entry(void *data)
+ {
+ 	struct bootmenu_entry *entry = data;
+-	int reverse = (entry->menu->active == entry->num);
++	int active = (entry->menu->active == entry->num);
+ 
+ 	/*
+ 	 * Move cursor to line where the entry will be drown (entry->num)
+ 	 * First 3 lines contain bootmenu header + 1 empty line
+ 	 */
+-	printf(ANSI_CURSOR_POSITION, entry->num + 4, 7);
++	printf(ANSI_CURSOR_POSITION, entry->num + 4, 1);
++	puts(ANSI_CLEAR_LINE);
+ 
+-	if (reverse)
+-		puts(ANSI_COLOR_REVERSE);
++	if (active)
++		puts("  => [");
++	else
++		puts("     ");
+ 
+ 	printf("%s", entry->title);
+ 
+-	if (reverse)
+-		puts(ANSI_COLOR_RESET);
++	if (active)
++		puts("]");
+ }
+ 
+ static char *bootmenu_choice_entry(void *data)
+-- 
+2.54.0
+

@@ -1,0 +1,35 @@
+From a14949f5c83142697fb151563f9801ea4b70ec6f Mon Sep 17 00:00:00 2001
+From: Da Xue <da@libre.computer>
+Date: Fri, 8 May 2020 16:35:27 -0400
+Subject: [PATCH 05/13] splash: fix CONFIG_SPLASH_SOURCE and enable backup logo
+ load
+
+Origin: https://github.com/libre-computer-project/libretech-u-boot/commit/8ddf2cded4efad8b5596b0b15a507aa3fb00f6d0
+---
+ common/splash.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/common/splash.c b/common/splash.c
+index c5591293634..50cb352c0b8 100644
+--- a/common/splash.c
++++ b/common/splash.c
+@@ -90,10 +90,12 @@ static inline int splash_video_logo_load(void) { return -ENOSYS; }
+ 
+ __weak int splash_screen_prepare(void)
+ {
+-	if (CONFIG_IS_ENABLED(SPLASH_SOURCE))
+-		return splash_source_load(default_splash_locations,
+-					  ARRAY_SIZE(default_splash_locations));
+-
++	if (CONFIG_IS_ENABLED(SPLASH_SOURCE)) {
++		int ret = splash_source_load(default_splash_locations,
++					     ARRAY_SIZE(default_splash_locations));
++		if (!ret)
++			return 0;
++	}
+ 	return splash_video_logo_load();
+ }
+ 
+-- 
+2.54.0
+

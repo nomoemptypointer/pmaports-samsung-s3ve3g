@@ -1,9 +1,9 @@
 # Reference: <https://postmarketos.org/devicepkg>
 # Co-Maintainer: Lukas Timmermann <lukas@timmermann.space>
 maintainer="Alexandre Marquet <tb@a-marquet.fr>"
-pkgname=device-samsung-manta
+pkgname=device-google-manta
 pkgdesc="Google Nexus 10"
-pkgver=14
+pkgver=2
 pkgrel=0
 url="https://postmarketos.org"
 license="MIT"
@@ -28,7 +28,10 @@ source="
 	ucm/HiFi.conf
 	ucm/Manta_WM1811.conf
 "
-replaces="openrc" # for hwclock configuration
+replaces="
+	device-samsung-manta
+	openrc
+"
 
 build() {
 	devicepkg_build $startdir $pkgname
@@ -57,9 +60,9 @@ package() {
 }
 
 nonfree_firmware() {
-	pkgdesc="Firmware for Samsung Manta (Nexus 10)"
+	pkgdesc="Firmware for Google Manta (Nexus 10)"
 	depends="
-		firmware-samsung-manta
+		firmware-google-manta
 		linux-firmware-brcm
 		linux-firmware-s5p-mfc
 	"
@@ -75,7 +78,7 @@ disable_gsd_color() {
 }
 
 sha512sums="
-c7cf9e0796cb6e85130bf322e89a0839e97ede6edc90d38fc02d197c949bd3b93e52389761e5adc690e502a443aa723f5fd61fad4d9ba580bd3ad695af9a808c  deviceinfo
+2acfe8ae949cbe08d49895a8bb8ee95515e398c53aced1eef2ade1cbeee75c5b9503039cd43988bb2f62d2e4bce89a8a7240498d474d7ea4d3b9a7696e3e0389  deviceinfo
 e00c58936fa4340f8531538136ad028d002342a4399b68d26190b931831108007486257f9d8a48c3ed454696b45d176b1497d624c33ace21e61eba33ac7ce136  modules-initfs
 8a9756c66bf1eacd6a9717abf772a198123391deac7e32a520666dd6f72c4c5b09d1a4791437c8902f62cf4b49106ace195d57082972b1cb4c843c8e1b065875  hwclock
 0a3d0365369335fcb4793d6dce93b744111478e191f4725e06da431cd080874ba897ea5abf92da9fc9005a5520da253e199620229231b16fb58a41a1091e6a44  HiFi.conf

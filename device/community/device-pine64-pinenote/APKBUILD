@@ -177,12 +177,12 @@ hrdl() {
 		"$builddir"/bin/sway_rotate.sh \
 		"$builddir"/bin/sway_dbus_integration.py \
 		"$builddir"/bin/sway_hrdl \
-		-t "$subpkgdir"/usr/libexec/pinenote/scripts
+		-t "$subpkgdir"/usr/libexec/pinenote
 
 	# waybar modules
 	install -Dm755 \
 		"$_swayconfdir"/waybar/modules/* \
-		-t "$subpkgdir"/usr/libexec/pinenote/modules
+		-t "$subpkgdir"/usr/share/pinenote/modules
 
 	# waybar config
 	install -Dm644 \

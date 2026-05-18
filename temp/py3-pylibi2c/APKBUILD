@@ -1,6 +1,6 @@
 # Contributor: Antoine Martin (ayakael) <dev@ayakael.net>
 maintainer="Antoine Martin (ayakael) <dev@ayakael.net>"
-pkgname=py3-libi2c
+pkgname=py3-pylibi2c
 _pkgreal=pylibi2c
 pkgver=0.2.1
 # upstream does not tag releases

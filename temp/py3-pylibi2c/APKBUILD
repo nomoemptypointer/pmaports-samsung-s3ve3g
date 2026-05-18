@@ -8,7 +8,7 @@ _gittag=dcdf6c671e84d88ab82a863251e01c024e2fdf94
 pkgrel=0
 pkgdesc="Linux userspace i2c operation library"
 url="https://github.com/amaork/libi2c"
-arch="noarch"
+arch="any"
 license="MIT"
 makedepends="
 	py3-gpep517
@@ -18,10 +18,9 @@ makedepends="
 checkdepends="
 	py3-pytest
 	"
-subpackages="$pkgname-pyc"
 source="$pkgname-$_gittag.tar.gz::https://github.com/amaork/libi2c/archive/$_gittag.tar.gz"
 options="!check" # Test suite requires working i2c device
-builddir="$srcdir/${pkgname/py3-}-$_gittag"
+builddir="$srcdir/${pkgname/py3-py}-$_gittag"
 
 build() {
 	gpep517 build-wheel \

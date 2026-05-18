@@ -8,7 +8,7 @@ _gittag=dcdf6c671e84d88ab82a863251e01c024e2fdf94
 pkgrel=0
 pkgdesc="Linux userspace i2c operation library"
 url="https://github.com/amaork/libi2c"
-arch="any"
+arch="all"
 license="MIT"
 makedepends="
 	py3-gpep517

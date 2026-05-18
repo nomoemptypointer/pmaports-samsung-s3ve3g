@@ -1,7 +1,7 @@
 maintainer="Antoine Martin (ayakael) <dev@ayakael.net>"
 pkgname=device-pine64-pinenote
 pkgdesc="Pine64 PineNote"
-pkgver=13
+pkgver=14
 pkgrel=0
 _commit="42cf0c3dc26d6e0b2a32ef5a00e7ca4ae77034c7"
 _swayconfver="v1.1.0"

@@ -106,7 +106,9 @@ The purpose of community is to increase visibility of devices that:
 
 Requirements:
 
-* Must run a close-to-mainline kernel
+* Must run a close-to-mainline kernel as new or newer than the oldest supported LTS release
+  * The kernel version does not need to be the latest released patch version
+* Kernel must be compiled with LLVM
 * Port and dependencies build
 * The device boots
 

@@ -131,10 +131,12 @@ hrdl() {
 		nwg-menu
 		papirus-icon-theme
 		postmarketos-ui-sway
+		py3-crcmod
 		py3-dbus-next
 		py3-i3ipc
 		py3-pillow
 		py3-pydbus
+		py3-pylibi2c
 		rot8
 		squeekboard
 		swaybg

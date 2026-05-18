@@ -1,6 +1,6 @@
 # samsung-s3ve3g
 
-Due to ``boot.img`` being a bit too large to fit into the ``10485760`` byte partition I decided to fork ``pmaports`` and edit some stuff, you can check what changed by looking at the commits of this branch
+Due to ``boot.img`` being a bit too large to fit into the ``10485760`` byte partition I decided to fork ``pmaports`` and edit some stuff, you can check what changed by looking at the commits of this branch. I might have created this branch from other branch than ``main`` oops.
 
 # postmarketOS aports
 

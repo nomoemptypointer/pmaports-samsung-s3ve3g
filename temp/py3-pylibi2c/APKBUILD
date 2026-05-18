@@ -1,5 +1,5 @@
 # Contributor: Antoine Martin (ayakael) <dev@ayakael.net>
-# Maintainer: Antoine Martin (ayakael) <dev@ayakael.net>
+maintainer="Antoine Martin (ayakael) <dev@ayakael.net>"
 pkgname=py3-libi2c
 _pkgreal=pylibi2c
 pkgver=0.2.1

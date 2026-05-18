@@ -1,6 +1,6 @@
 maintainer="Clayton Craft <clayton@craftyguy.net>"
 pkgname=postmarketos-usb-moded
-pkgver=4
+pkgver=8
 pkgrel=0
 pkgdesc="Meta package for configuring usb-moded on postmarketOS"
 url="https://postmarketos.org"
@@ -8,7 +8,7 @@ arch="noarch"
 license="GPL-3.0-or-later"
 depends="
 	umtprd
-	usb-moded
+	usb-signaller
 	usb-moded-notify
 "
 subpackages="
@@ -30,13 +30,16 @@ _source644="
 	etc/umtprd/umtprd.conf
 	usr/lib/systemd/system/usb-moded-developer-mode.service
 	usr/lib/systemd/system/usb-moded-tethering-mode.service
+	usr/lib/systemd/system/usb-moded-mtp-mode.service
 	usr/lib/systemd/system/usb-moded.service.d/override.conf
 "
 _source755="
 	etc/init.d/usb-moded-developer-mode.initd
 	etc/init.d/usb-moded-tethering-mode.initd
+	etc/init.d/usb-moded-mtp-mode.initd
 	usr/bin/usb-moded-developer-mode
 	usr/bin/usb-moded-tethering-mode
+	usr/bin/usb-moded-mtp-mode
 	usr/lib/systemd/system-generators/umtprd-config-generator
 "
 
@@ -118,10 +121,13 @@ af41dc4ceb7255dbb88273916306c6e7e66c879bb67523c9571f9e812c9b36ab00ea666ade49369c
 912f0700c87883b55f631cfc3d76e172ff1c21aa57b0c18d1e7b9671ecd6254b1e7565816e3967c68caab196076bf7c8b848375c89185aa4466f4ca7f65231be  rootfs-etc-umtprd-umtprd.conf
 2c838fd0ad66c92386f6159c7d96d3ba940e13834642eb2cb7612d79d6b8832e9bd06b1eb189141f21fa9085d8b43ea514c15d82736ebd6b94533811f5a15f11  rootfs-usr-lib-systemd-system-usb-moded-developer-mode.service
 56ce2662dd8f88795bd2e9063f20747e1377d896fbcf9e1ae43c90ef511c4a11517d7c673f857cf194070c425f417df8f40ced9b95749ed1df53e1be122a8ef7  rootfs-usr-lib-systemd-system-usb-moded-tethering-mode.service
+969cfeb3ff0a0153f0d383db18600a3d94e80d39cfb6fb0bae3439c6550785d022852447e93834c50d8d1ec8edc7eec4114db1de64ed454aa9b01f4e6f621e08  rootfs-usr-lib-systemd-system-usb-moded-mtp-mode.service
 fe4d085730d448e51bbce9e99c3cc7b4662e5fadd6108e5f2e74040f0d4e901132aa7f3367acad183198c5a150862bdef536a6a1968784bf9babc1702c2f16fe  rootfs-usr-lib-systemd-system-usb-moded.service.d-override.conf
 95681a9bb2d5f8d99f51762d09dc4f0c487442a20070ad1439de1309b775ac1752fe60a205389cc74a1ee9026afc4ad984ac3363659a6749792835654a111d7f  rootfs-etc-init.d-usb-moded-developer-mode.initd
 1d8b98508f7969a4ba671866eee5e54261c50362e41b18bfebf004a6ed1e97d01a8eb83e3a33c392cbd00ea1a20f0f004b4794582ef1b71dedbba0fba2dc4602  rootfs-etc-init.d-usb-moded-tethering-mode.initd
-9aab1a91a817e2337320ee0fa1bf6133e65e9269631560c1860c3b777adb336d036cebbc2510d1df35a82bf4396d553ff9e2edd0004027c7a3130168f7f50d90  rootfs-usr-bin-usb-moded-developer-mode
-5cc40b1a0c86904d824f8f03e3f44900aaf407c5c462902f4f58cd58c603be1c5919651b91320983e21da42f5891e29df504bf4f1bddef64fedc68c2accdccbc  rootfs-usr-bin-usb-moded-tethering-mode
+b8a4d9c8d1e2cde8d6b31bbb3e61d37c05cf2aa1e04cb25c24308839d045205e0604b103d2d60f9834782dcc64ab346cfe8f97797d4d0c86f54e4cfceb6af679  rootfs-etc-init.d-usb-moded-mtp-mode.initd
+671ce7756bf849da4e24f4265dd39c0ae584b7c29d6419bf378abe90701ff3c58a90cf9333516f229b59ed6e9be8066b8ce54e7bd85737dcb598a3efd58167ba  rootfs-usr-bin-usb-moded-developer-mode
+ce6ec0e315929ab394c1f8c0d85568003345ef40e5dd86b9b45c8c0b28100d2d98876c8bf20b997734b4bb928c7ffb47f62780e1b3eac044e316474ca8c057e1  rootfs-usr-bin-usb-moded-tethering-mode
+0174ce39326b09d982cfcc7a91893e23e1fb0505a65c0bc3d049c144739435589faf973b3102f7da2e32b6bc6ddfc308f52bfddefd398a0e13156f4875a6a5ff  rootfs-usr-bin-usb-moded-mtp-mode
 ca4b82b0cccbbb498b8898c4e360142136c46687e97bce85553dc1793bf8ae2e0f509c2a1acdf96b08dc7c6b69f098b56181f9033ad669cabbf5a159ad8efbaa  rootfs-usr-lib-systemd-system-generators-umtprd-config-generator
 "

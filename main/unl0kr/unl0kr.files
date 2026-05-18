@@ -12,3 +12,5 @@
 /usr/lib/udev/libinput-fuzz-to-zero
 /usr/lib/udev/rules.d/80-libinput-device-groups.rules
 /usr/lib/udev/rules.d/90-libinput-fuzz-override.rules
+/usr/share/unl0kr/unl0kr.conf
+/usr/share/unl0kr/unl0kr.conf.d
